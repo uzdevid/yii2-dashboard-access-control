@@ -2,7 +2,7 @@
 
 namespace uzdevid\dashboard\access\control\models\search;
 
-use uzdevid\dashboard\models\Action;
+use uzdevid\dashboard\access\control\models\Action;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 

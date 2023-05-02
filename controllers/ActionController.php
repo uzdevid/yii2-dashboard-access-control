@@ -2,13 +2,13 @@
 
 namespace uzdevid\dashboard\access\control\controllers;
 
+use uzdevid\dashboard\access\control\models\Action;
+use uzdevid\dashboard\access\control\models\search\ActionSearch;
+use uzdevid\dashboard\base\helpers\Url;
 use uzdevid\dashboard\base\web\Controller;
 use uzdevid\dashboard\widgets\ModalPage\ModalPage;
 use uzdevid\dashboard\widgets\ModalPage\ModalPageOptions;
 use uzdevid\dashboard\widgets\Toaster\Toaster;
-use uzdevid\dashboard\base\helpers\Url;
-use uzdevid\dashboard\models\Action;
-use uzdevid\dashboard\models\search\ActionSearch;
 use Yii;
 use yii\db\StaleObjectException;
 use yii\filters\AccessControl;
@@ -43,6 +43,12 @@ class ActionController extends Controller {
         ];
 
         return $behaviors;
+    }
+
+    public function __construct($id, $module, $config = []) {
+        parent::__construct($id, $module, $config);
+
+        $this->viewPath = '@uzdevid/yii2-dashboard-access-control/views/action';
     }
 
     /**

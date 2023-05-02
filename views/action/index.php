@@ -1,16 +1,18 @@
 <?php
 
-use uzdevid\dashboard\widgets\ModalPage\ModalPage;
+use uzdevid\dashboard\access\control\models\Action;
 use uzdevid\dashboard\base\helpers\Url;
-use uzdevid\dashboard\models\Action;
+use uzdevid\dashboard\widgets\ModalPage\ModalPage;
 use yii\bootstrap5\Html;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 
-/** @var yii\web\View $this */
-/** @var uzdevid\dashboard\models\search\ActionSearch $searchModel */
-/** @var yii\data\ActiveDataProvider $dataProvider */
+/**
+ * @var yii\web\View $this
+ * @var uzdevid\dashboard\models\search\ActionSearch $searchModel
+ * @var yii\data\ActiveDataProvider $dataProvider
+ */
 
 $this->title = Yii::t('system.crud', 'Actions');
 $this->params['breadcrumbs'][] = $this->title;
