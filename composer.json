@@ -1,0 +1,25 @@
+{
+  "name": "uzdevid/yii2-dashboard-access-control",
+  "description": "Dashboard Access Control",
+  "type": "yii2-extension",
+  "keywords": [
+    "yii2",
+    "dashboard",
+    "access control"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "IbragimovDiyorbek",
+      "email": "uzdevid@gmail.com"
+    }
+  ],
+  "require": {
+    "yiisoft/yii2": "~2.0.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "uzdevid\\dashboard\\access\\control\\": ""
+    }
+  }
+}
