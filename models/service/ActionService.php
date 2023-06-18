@@ -2,8 +2,8 @@
 
 namespace uzdevid\dashboard\access\control\models\service;
 
-use uzdevid\dashboard\models\Action;
-use uzdevid\dashboard\models\ActionUser;
+use uzdevid\dashboard\access\control\models\Action;
+use uzdevid\dashboard\access\control\models\ActionUser;
 
 class ActionService {
     /**
