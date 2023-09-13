@@ -2,24 +2,22 @@
 
 namespace uzdevid\dashboard\access\control\controllers;
 
-use uzdevid\dashboard\access\control\models\Action;
-use uzdevid\dashboard\access\control\models\search\ActionSearch;
+use uzdevid\dashboard\access\control\filters\DashboardAccessControl;
+use uzdevid\dashboard\access\control\models\Role;
 use uzdevid\dashboard\base\helpers\Url;
 use uzdevid\dashboard\base\web\Controller;
 use uzdevid\dashboard\widgets\ModalPage\ModalPage;
 use uzdevid\dashboard\widgets\ModalPage\ModalPageOptions;
 use uzdevid\dashboard\widgets\Toaster\Toaster;
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\db\StaleObjectException;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
-/**
- * ActionController implements the CRUD actions for Action model.
- */
-class ActionController extends Controller {
+class RoleController extends Controller {
     /**
      * @inheritDoc
      */
@@ -35,6 +33,10 @@ class ActionController extends Controller {
             ],
         ];
 
+        $behaviors['AccessControl'] = [
+            'class' => \uzdevid\abac\AccessControl::class
+        ];
+
         $behaviors['verbs'] = [
             'class' => VerbFilter::class,
             'actions' => [
@@ -46,7 +48,7 @@ class ActionController extends Controller {
     }
 
     public function init() {
-        $this->viewPath = '@uzdevid/yii2-dashboard-access-control/views/action';
+        $this->viewPath = '@uzdevid/yii2-dashboard-access-control/views/role';
 
         parent::init();
     }
@@ -55,29 +57,30 @@ class ActionController extends Controller {
      * @return string
      */
     public function actionIndex(): string {
-        $searchModel = new ActionSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
+        $dataProvider = new ActiveDataProvider([
+            'query' => Role::find()
+        ]);
 
-        return $this->render('index', compact('dataProvider', 'searchModel'));
+        return $this->render('index', compact('dataProvider'));
     }
 
     /**
      * @param int $id ID
+     *
      * @return array|string
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionView(int $id): array|string {
         $model = $this->findModel($id);
-
         if ($this->request->isAjax) {
-            $modal = ModalPage::options(true, ModalPageOptions::SIZE_LG);
+            $modal = ModalPage::options(true, ModalPageOptions::SIZE_SM);
             $view = $this->renderAjax('modal/view', compact('model'));
 
             return [
                 'success' => true,
                 'modal' => $modal,
                 'body' => [
-                    'title' => ModalPage::title(Yii::t('system.content', 'Action {path}', ['path' => $model->path]), '<i class="bi bi-link"></i>'),
+                    'title' => ModalPage::title($model->translatedName, '<i class="bi bi-list-check"></i>'),
                     'view' => $view
                 ]
             ];
@@ -90,7 +93,7 @@ class ActionController extends Controller {
      * @return Response|array|string
      */
     public function actionCreate(): Response|array|string {
-        $model = new Action();
+        $model = new Role();
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
@@ -101,15 +104,14 @@ class ActionController extends Controller {
         }
 
         if ($this->request->isAjax) {
-            $modal = ModalPage::options(true, ModalPageOptions::SIZE_LG);
-            $view = $this->renderAjax('modal/update', ['model' => $model]);
+            $modal = ModalPage::options(true, ModalPageOptions::SIZE_SM);
+            $view = $this->renderAjax('modal/create', compact('model'));
 
             return [
                 'success' => true,
                 'modal' => $modal,
-                'toaster' => Toaster::success(),
                 'body' => [
-                    'title' => ModalPage::title(Yii::t('system.content', 'Create action'), '<i class="bi bi-link"></i>'),
+                    'title' => ModalPage::title(Yii::t('system.content', 'Create Role'), '<i class="bi bi-list-check"></i>'),
                     'view' => $view
                 ]
             ];
@@ -120,7 +122,8 @@ class ActionController extends Controller {
 
     /**
      * @param int $id ID
-     * @return Response|array|string
+     *
+     * @return  Response|array|string
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionUpdate(int $id): Response|array|string {
@@ -131,15 +134,15 @@ class ActionController extends Controller {
         }
 
         if ($this->request->isAjax) {
-            $modal = ModalPage::options(true, ModalPageOptions::SIZE_LG);
-            $view = $this->renderAjax('modal/update', ['model' => $model]);
+            $modal = ModalPage::options(true, ModalPageOptions::SIZE_SM);
+            $view = $this->renderAjax('modal/create', compact('model'));
 
             return [
                 'success' => true,
                 'modal' => $modal,
                 'toaster' => Toaster::success(),
                 'body' => [
-                    'title' => ModalPage::title(Yii::t('system.content', 'Update action {path}', ['path' => $model->path]), '<i class="bi bi-link"></i>'),
+                    'title' => ModalPage::title(Yii::t('system.content', 'Update role'), '<i class="bi bi-list-check"></i>'),
                     'view' => $view
                 ]
             ];
@@ -150,9 +153,9 @@ class ActionController extends Controller {
 
     /**
      * @param int $id ID
+     *
      * @return Response
      * @throws NotFoundHttpException if the model cannot be found
-     * @throws \Throwable
      * @throws StaleObjectException
      */
     public function actionDelete(int $id): Response {
@@ -163,11 +166,12 @@ class ActionController extends Controller {
 
     /**
      * @param int $id ID
-     * @return Action the loaded model
+     *
+     * @return Role the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel(int $id): Action {
-        if (($model = Action::findOne(['id' => $id])) !== null) {
+    protected function findModel(int $id): Role {
+        if (($model = Role::findOne(['id' => $id])) !== null) {
             return $model;
         }
 
