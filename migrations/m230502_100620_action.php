@@ -12,48 +12,49 @@ class m230502_100620_action extends Migration {
     public function safeUp(): void {
         $this->createTable('action', [
             'id' => $this->primaryKey(),
-            'path' => $this->string(255)->notNull()
+            'action' => $this->string(255)->notNull()->unique(),
         ]);
 
-        $this->batchInsert('action', ['id', 'path'], [
-            ['id' => 1, 'path' => 'system/default/index'],
+        $this->batchInsert('action', ['id', 'action'], [
+            ['id' => 10101, 'action' => 'system.user.index'],
+            ['id' => 10102, 'action' => 'system.user.create'],
+            ['id' => 10103, 'action' => 'system.user.update'],
+            ['id' => 10104, 'action' => 'system.user.view'],
+            ['id' => 10105, 'action' => 'system.user.delete'],
+            ['id' => 10106, 'action' => 'system.user.online-users'],
             //
-            ['id' => 2, 'path' => 'system/user/create'],
-            ['id' => 3, 'path' => 'system/user/delete'],
-            ['id' => 4, 'path' => 'system/user/index'],
-            ['id' => 5, 'path' => 'system/user/online-users'],
-            ['id' => 6, 'path' => 'system/user/permissions'],
-            ['id' => 7, 'path' => 'system/user/view'],
+            ['id' => 10201, 'action' => 'system.action.index'],
+            ['id' => 10202, 'action' => 'system.action.create'],
+            ['id' => 10203, 'action' => 'system.action.update'],
+            ['id' => 10204, 'action' => 'system.action.view'],
+            ['id' => 10205, 'action' => 'system.action.delete'],
             //
-            ['id' => 8, 'path' => 'system/action/index'],
-            ['id' => 9, 'path' => 'system/action/create'],
-            ['id' => 10, 'path' => 'system/action/update'],
-            ['id' => 11, 'path' => 'system/action/view'],
+            ['id' => 10301, 'action' => 'system.role.index'],
+            ['id' => 10302, 'action' => 'system.role.create'],
+            ['id' => 10303, 'action' => 'system.role.update'],
+            ['id' => 10304, 'action' => 'system.role.view'],
+            ['id' => 10305, 'action' => 'system.role.delete'],
+            ['id' => 10306, 'action' => 'system.role.permissions'],
             //
-            ['id' => 12, 'path' => 'system/role/create'],
-            ['id' => 13, 'path' => 'system/role/index'],
+            ['id' => 10401, 'action' => 'system.menu.index'],
+            ['id' => 10402, 'action' => 'system.menu.create'],
+            ['id' => 10403, 'action' => 'system.menu.update'],
+            ['id' => 10404, 'action' => 'system.menu.view'],
+            ['id' => 10405, 'action' => 'system.menu.delete'],
+            ['id' => 10406, 'action' => 'system.api/menu.index'],
+            ['id' => 10407, 'action' => 'system.api/menu.sort-completed'],
             //
-            ['id' => 14, 'path' => 'system/api/menu/index'],
-            ['id' => 15, 'path' => 'system/api/menu/sort-completed'],
-            ['id' => 16, 'path' => 'system/api/user/permission'],
+            ['id' => 10501, 'action' => 'system.yii-message.index'],
+            ['id' => 10502, 'action' => 'system.yii-message.create'],
+            ['id' => 10503, 'action' => 'system.yii-message.update'],
+            ['id' => 10504, 'action' => 'system.yii-message.view'],
+            ['id' => 10505, 'action' => 'system.yii-message.delete'],
             //
-            ['id' => 17, 'path' => 'system/menu/create'],
-            ['id' => 18, 'path' => 'system/menu/delete'],
-            ['id' => 19, 'path' => 'system/menu/index'],
-            ['id' => 20, 'path' => 'system/menu/update'],
-            ['id' => 21, 'path' => 'system/menu/view'],
-            //
-            ['id' => 22, 'path' => 'system/yii-message/create'],
-            ['id' => 23, 'path' => 'system/yii-message/delete'],
-            ['id' => 24, 'path' => 'system/yii-message/index'],
-            ['id' => 25, 'path' => 'system/yii-message/update'],
-            ['id' => 26, 'path' => 'system/yii-message/view'],
-            //
-            ['id' => 27, 'path' => 'system/yii-source-message/create'],
-            ['id' => 28, 'path' => 'system/yii-source-message/delete'],
-            ['id' => 29, 'path' => 'system/yii-source-message/index'],
-            ['id' => 30, 'path' => 'system/yii-source-message/update'],
-            ['id' => 31, 'path' => 'system/yii-source-message/view'],
+            ['id' => 10601, 'action' => 'system.yii-source-message.index'],
+            ['id' => 10602, 'action' => 'system.yii-source-message.create'],
+            ['id' => 10603, 'action' => 'system.yii-source-message.update'],
+            ['id' => 10604, 'action' => 'system.yii-source-message.view'],
+            ['id' => 10605, 'action' => 'system.yii-source-message.delete'],
         ]);
     }
 
