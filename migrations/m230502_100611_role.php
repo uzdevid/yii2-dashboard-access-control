@@ -43,7 +43,10 @@ class m230502_100611_role extends Migration {
      * {@inheritdoc}
      */
     public function safeDown(): bool {
+        $this->dropForeignKey('fk_user_role_id', 'user');
+        $this->dropColumn('user', 'role_id');
         $this->dropTable('role');
+        
         return true;
     }
 }
