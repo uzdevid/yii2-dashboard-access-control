@@ -26,19 +26,6 @@ class RoleController extends Controller {
      */
     public function behaviors(): array {
         $behaviors = parent::behaviors();
-        $behaviors['access'] = [
-            'class' => AccessControl::class,
-            'rules' => [
-                [
-                    'allow' => true,
-                    'roles' => ['@'],
-                ],
-            ],
-        ];
-
-        $behaviors['AccessControl'] = [
-            'class' => \uzdevid\abac\AccessControl::class
-        ];
 
         $behaviors['verbs'] = [
             'class' => VerbFilter::class,
@@ -54,7 +41,7 @@ class RoleController extends Controller {
         return $behaviors;
     }
 
-    public function init() {
+    public function init(): void {
         $this->viewPath = '@uzdevid/yii2-dashboard-access-control/views/role';
 
         parent::init();
@@ -77,29 +64,27 @@ class RoleController extends Controller {
      * @return array|string
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView(int $id): array|string {
+    public function actionView(int $id): Response|string {
         $model = $this->findModel($id);
-        if ($this->request->isAjax) {
-            $modal = ModalPage::options(true, ModalPageOptions::SIZE_SM);
-            $view = $this->renderAjax('modal/view', compact('model'));
 
-            return [
-                'success' => true,
-                'modal' => $modal,
-                'body' => [
-                    'title' => ModalPage::title($model->translatedName, '<i class="bi bi-list-check"></i>'),
-                    'view' => $view
-                ]
-            ];
+        if (!$this->request->isAjax) {
+            return $this->render('view', compact('model'));
         }
 
-        return $this->render('view', compact('model'));
+        return $this->asJson([
+            'success' => true,
+            'modal' => ModalPage::options(true, ModalPageOptions::SIZE_SM),
+            'body' => [
+                'title' => ModalPage::title($model->translatedName, '<i class="bi bi-list-check"></i>'),
+                'view' => $this->renderAjax('modal/view', compact('model'))
+            ]
+        ]);
     }
 
     /**
-     * @return Response|array|string
+     * @return Response|string
      */
-    public function actionCreate(): Response|array|string {
+    public function actionCreate(): Response|string {
         $model = new Role();
 
         if ($this->request->isPost) {
@@ -110,61 +95,55 @@ class RoleController extends Controller {
             $model->loadDefaultValues();
         }
 
-        if ($this->request->isAjax) {
-            $modal = ModalPage::options(true, ModalPageOptions::SIZE_SM);
-            $view = $this->renderAjax('modal/create', compact('model'));
-
-            return [
-                'success' => true,
-                'modal' => $modal,
-                'body' => [
-                    'title' => ModalPage::title(Yii::t('system.content', 'Create Role'), '<i class="bi bi-list-check"></i>'),
-                    'view' => $view
-                ]
-            ];
+        if (!$this->request->isAjax) {
+            return $this->render('create', compact('model'));
         }
 
-        return $this->render('create', compact('model'));
+        return $this->asJson([
+            'success' => true,
+            'modal' => ModalPage::options(true, ModalPageOptions::SIZE_SM),
+            'body' => [
+                'title' => ModalPage::title(Yii::t('system.content', 'Create Role'), '<i class="bi bi-list-check"></i>'),
+                'view' => $this->renderAjax('modal/create', compact('model'))
+            ]
+        ]);
     }
 
     /**
      * @param int $id ID
      *
-     * @return  Response|array|string
+     * @return  Response|string
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate(int $id): Response|array|string {
+    public function actionUpdate(int $id): Response|string {
         $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
             return $this->redirect(Url::to(['index']));
         }
 
-        if ($this->request->isAjax) {
-            $modal = ModalPage::options(true, ModalPageOptions::SIZE_SM);
-            $view = $this->renderAjax('modal/create', compact('model'));
-
-            return [
-                'success' => true,
-                'modal' => $modal,
-                'toaster' => Toaster::success(),
-                'body' => [
-                    'title' => ModalPage::title(Yii::t('system.content', 'Update role'), '<i class="bi bi-list-check"></i>'),
-                    'view' => $view
-                ]
-            ];
+        if (!$this->request->isAjax) {
+            return $this->render('update', compact('model'));
         }
 
-        return $this->render('update', compact('model'));
+        return $this->asJson([
+            'success' => true,
+            'modal' => ModalPage::options(true, ModalPageOptions::SIZE_SM),
+            'toaster' => Toaster::success(),
+            'body' => [
+                'title' => ModalPage::title(Yii::t('system.content', 'Update role'), '<i class="bi bi-list-check"></i>'),
+                'view' => $this->renderAjax('modal/create', compact('model'))
+            ]
+        ]);
     }
 
     /**
      * @param int $id
      *
-     * @return array|string
+     * @return Response|string
      * @throws NotFoundHttpException
      */
-    public function actionPermissions(int $id): array|string {
+    public function actionPermissions(int $id): Response|string {
         $model = $this->findModel($id);
 
         $actions = Action::find()->orderBy(['action' => SORT_ASC])->all();
@@ -173,14 +152,14 @@ class RoleController extends Controller {
             return $this->render('permissions', compact('model', 'actions'));
         }
 
-        return [
+        return $this->asJson([
             'success' => true,
             'modal' => ModalPage::options(true, ModalPageOptions::SIZE_FULLSCREEN),
             'body' => [
                 'title' => ModalPage::title($model->name, '<i class="bi bi-shield"></i>'),
                 'view' => $this->renderAjax('modal/permissions', compact('model', 'actions'))
             ]
-        ];
+        ]);
     }
 
     /**
@@ -200,7 +179,7 @@ class RoleController extends Controller {
      * @throws NotFoundHttpException
      */
     public function actionSavePermission(): array {
-        
+
     }
 
     /**
