@@ -34,7 +34,7 @@ class m230502_100611_role extends Migration {
         ]);
 
         $this->addColumn('user', 'role_id', $this->integer()->notNull()->after('user_id')->defaultValue(2));
-        $this->addForeignKey('fk_user_role_id', 'user', 'role_id', 'role', 'id', 'SET NULL', 'CASCADE');
+        $this->addForeignKey('fk_user_role_id', 'user', 'role_id', 'role', 'id');
 
         $this->update('user', ['role_id' => 1], ['id' => 1]);
     }

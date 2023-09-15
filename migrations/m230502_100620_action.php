@@ -35,15 +35,12 @@ class m230502_100620_action extends Migration {
             ['id' => 10304, 'action' => 'system.role.view'],
             ['id' => 10305, 'action' => 'system.role.delete'],
             ['id' => 10306, 'action' => 'system.role.permissions'],
-            ['id' => 10308, 'action' => 'system.api.role.permission'],
             //
             ['id' => 10401, 'action' => 'system.menu.index'],
             ['id' => 10402, 'action' => 'system.menu.create'],
             ['id' => 10403, 'action' => 'system.menu.update'],
             ['id' => 10404, 'action' => 'system.menu.view'],
             ['id' => 10405, 'action' => 'system.menu.delete'],
-            ['id' => 10406, 'action' => 'system.api.menu.index'],
-            ['id' => 10407, 'action' => 'system.api.menu.sort-completed'],
             //
             ['id' => 10501, 'action' => 'system.yii-message.index'],
             ['id' => 10502, 'action' => 'system.yii-message.create'],
